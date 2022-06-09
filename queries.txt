@@ -1,0 +1,32 @@
+
+Query for getting top artists in a range counting artists only once per show
+'''SELECT artist, COUNT(*) as plays
+FROM(Select distinct artist, showname
+	 FROM `2022-01-24_to_2022-05-19 - 2022-01-24_to_2022-05-19`) as subtable
+WHERE artist != ""
+GROUP BY artist
+HAVING plays > 1
+ORDER BY plays DESC'''
+
+Query for getting top artists based on number of days played on the station, regardless of show
+'''Select artist, count(*) as n
+FROM(Select distinct artist, showname, date
+FROM `2022-01-24_to_2022-05-19 - 2022-01-24_to_2022-05-19`) as subtable
+group by artist
+having count(*) > 1
+order by count(*) DESC'''
+
+Query For getting top songs(excludes Songland NYU because it was messing up the data)
+'''SELECT title, artist, count(*)
+FROM `2022-01-24_to_2022-05-19 - 2022-01-24_to_2022-05-19`
+where showname != "Songland NYU"
+group by title, artist
+order by count(*) DESC'''
+
+Query For getting top albums
+'''SELECT albums, artist, COUNT(*) as plays
+FROM `springdumpcomplete`
+WHERE albums != ""
+GROUP BY albums,artist
+HAVING plays > 1
+ORDER BY plays DESC'''

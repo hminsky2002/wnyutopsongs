@@ -4,11 +4,14 @@ import pandas as pd
 import os
 import glob
 import time
+import re
+import shutil
+import pandasql as ps
+chrome_path = r"./chromedriver"
 
-startdate = "2022-01-24"
-enddate = "2022-05-19"
-directory = "episoderanges/"+startdate+"to"+enddate
-chrome_path = r"/Users/harryminsky/Downloads/chromedriver"
+
+datepattern = re.compile(r'^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$')
+
 #fix to get around connection not secure page
 def initDriver(DownloadPath):
     prefs = {"download.default_directory" : "/Users/harryminsky/PycharmProjects/wnyutopsongs/"+DownloadPath}
@@ -28,47 +31,119 @@ def datepick(start,end):
     driver.find_element(By.NAME, "q[start_at_gteq_datetime]").send_keys(start)
     driver.find_element(By.NAME, "q[start_at_lteq_datetime]").send_keys(end)
     driver.find_element(By.NAME, "commit").click()
+def popExtend(pop,listy):
+    del pop[0]
+    listy.extend(pop)
+# def populatelist(listy,colname):
+#     '''populates a list with the relevant elements, returns number of items added'''
+#     rawlist = [el.text for el in driver.find_elements(By.CLASS_NAME, colname)]
+#     del rawlist[0]
+#     listy.extend(rawlist)
+#     return len(rawlist)
+
+print("tool to get chart data from wnyu.org admin site")
+
+# startdate = "2022-05-05"
+# enddate = "2022-05-06"
+startdate = input("enter a start date of form YYYY-MM-DD: ")
+while not re.match(datepattern,startdate):
+    startdate = input("please enter a valid start date of form YYYY-MM-DD: ")
+
+enddate = input("enter an end date of form YYYY-MM-DD: ")
+while not re.match(datepattern,enddate):
+    end = input("please enter a valid end date of form YYYY-MM-DD: ")
 
 
+directory = startdate+"to"+enddate
+
+#create new directory for ids csv file
 os.mkdir(directory)
 
+
+#intitalize driver with proper download folder
 driver = initDriver(directory)
+
+#get to homepage and login, if different creds are required change vars in login method
 driver.get("https://www.wnyu.org/admin")
 login(driver)
-# driver.get("https://www.wnyu.org/admin/episodes?order=start_at_desc&scope=with_playlists&utf8=%E2%9C%93")
-# datepick(startdate,enddate)
+
 #get to playlist page
 episodes_csv = "https://www.wnyu.org/admin/episodes.csv?order=start_at_desc&q%5Bstart_at_gteq_datetime%5D="+startdate+"&q%5Bstart_at_lteq_datetime%5D="+enddate+"&scope=with_playlists&utf8=%E2%9C%93"
 
-#getthecsvfileforids
+#get the csv file for ids
 driver.get(episodes_csv)
 time.sleep(3)
 filename = glob.glob(directory+"/*.csv")
 #get the list of ids
 df = pd.read_csv(filename[0])
 df = df.drop(columns=['Description','Start at', 'End at','File url','Created at','Updated at','Image','Old','Comment','Slug','Locked'])
-idnamedate = df.values.tolist()
+idNameDate = df.values.tolist()
 
 titles = []
 artists = []
-showname = []
+albums = []
+showName = []
 date = []
-for i in idnamedate:
-  driver.get(f"https://www.wnyu.org/admin/episodes/{i[0]}/tracks")
-  rawtitles = [el.text for el in driver.find_elements(By.CLASS_NAME, 'col-title')]
-  del rawtitles[0]
-  titles.extend(rawtitles)
-  rawartists = [el.text for el in driver.find_elements(By.CLASS_NAME, 'col-artist_name')]
-  del rawartists[0]
-  artists.extend(rawartists)
-  showname.extend([i[1] for x in range(len(rawartists))])
-  date.extend([i[2] for x in range(len(rawartists))])
+for i in idNameDate:
+    driver.get(f"https://www.wnyu.org/admin/episodes/{i[0]}/tracks")
+    rawtitles = []
+    rawartists = []
+    rawalbums = []
+    for parent in driver.find_elements(By.TAG_NAME,"tr"):
+        rawtitles.append(parent.find_element(By.CLASS_NAME,"col-title").text)
+        rawartists.append(parent.find_element(By.CLASS_NAME, "col-artist_name").text)
+        rawalbums.append(parent.find_element(By.CLASS_NAME, "col-release_name").text)
+    popExtend(rawtitles,titles)
+    popExtend(rawartists,artists)
+    popExtend(rawalbums,albums)
+    showName.extend([i[1] for x in range(len(rawtitles))])
+    date.extend([i[2] for x in range(len(rawtitles))])
 
 
-
-df2 = pd.DataFrame(list(zip(titles, artists,showname,date)))
-df2.to_csv(f"{startdate}_to_{enddate}.csv",encoding='utf-8',header=['title','artist','showname','date'])
+fullsheet = pd.DataFrame(list(zip(titles, artists, albums, showName, date)))
 
 
+os.mkdir(f"output/{startdate}_to_{enddate}")
+
+fullsheet.to_csv(f"output/{startdate}_to_{enddate}/{startdate}_to_{enddate}_all.csv",header=['title', 'artist', 'albums', 'showname', 'date'])
+
+#quick rework to allow for subquery
+fullsheet = pd.read_csv(f'output/{startdate}_to_{enddate}/{startdate}_to_{enddate}_all.csv')
+artistsdf = fullsheet[['artist','showname','date']]
+artistsdf = artistsdf.drop_duplicates()
+
+
+topartists = ps.sqldf('''Select artist, count(*) as n
+                          FROM artistsdf
+                          where artist != ""
+                          group by artist
+                          having count(*) > 1
+                          order by count(*) DESC
+                          limit 100
+                        ''')
+topartists.to_csv(f"output/{startdate}_to_{enddate}/{startdate}_to_{enddate}_topArtists.csv",header=['artist', 'plays'])
+
+topsongs = ps.sqldf('''SELECT title, artist, count(*)
+                        FROM fullsheet
+                        where showname != "Songland NYU" and title != "" and artist != ""
+                        group by title, artist
+                        order by count(*) DESC
+                        limit 100
+                        ''')
+topsongs.to_csv(f"output/{startdate}_to_{enddate}/{startdate}_to_{enddate}_topSongs.csv",header=['title','artist', 'plays'])
+
+topalbums = ps.sqldf('''SELECT albums, artist, COUNT(*) as plays
+                        FROM fullsheet
+                        WHERE albums != ""
+                        GROUP BY albums,artist
+                        HAVING plays > 1
+                        ORDER BY plays DESC
+                        limit 100
+                        ''')
+topalbums.to_csv(f"output/{startdate}_to_{enddate}/{startdate}_to_{enddate}_topAlbums.csv",header=['album','artist', 'plays'])
+
+driver.close()
+
+shutil.rmtree(directory)
 
 

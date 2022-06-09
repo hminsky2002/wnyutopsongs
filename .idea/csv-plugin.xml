@@ -3,14 +3,21 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
-        <entry key="/2022-01-29_to_2022-05-12.csv">
+        <entry key="/2022-01-24_to_2022-05-19.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
             </Attribute>
           </value>
         </entry>
-        <entry key="/2022-05-15_to_2022-05-21.csv">
+        <entry key="/2022-05-02_to_2022-05-04.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/2022-05-05_to_2022-05-07.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
@@ -24,21 +31,21 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="/episoderanges/2022-01-29to2022-05-12/episodes-2022-06-08.csv">
+        <entry key="/episoderanges/2022-01-24to2022-05-19/episodes-2022-06-08.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
             </Attribute>
           </value>
         </entry>
-        <entry key="/episoderanges/episodes-2022-06-08.csv">
+        <entry key="/episoderanges/2022-05-02to2022-05-04/episodes-2022-06-09.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
             </Attribute>
           </value>
         </entry>
-        <entry key="/episoderanges/test/episodes-2022-06-08.csv">
+        <entry key="/episoderanges/2022-05-15_to_2022-05-21.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
@@ -46,6 +53,76 @@
           </value>
         </entry>
         <entry key="/june_charts.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/output/2022-01-24_to_2022-05-19.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/output/2022-04-01_to_2022-04-02/2022-04-01_to_2022-04-02_all.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/output/2022-04-01_to_2022-04-03/2022-04-01_to_2022-04-03_all.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/output/2022-04-02_to_2022-04-03/2022-04-02_to_2022-04-03_all.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/output/2022-05-01_to_2022-05-03/2022-05-01_to_2022-05-03_all.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/output/2022-05-01_to_2022-05-03/2022-05-01_to_2022-05-03_topAlbums.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/output/2022-05-01_to_2022-05-03/2022-05-01_to_2022-05-03_topArtists.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/output/2022-05-01_to_2022-05-03/2022-05-01_to_2022-05-03_topSongs.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/output/2022-05-05_to_2022-05-06.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/output/springwithalbums.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
