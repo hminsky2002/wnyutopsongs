@@ -7,6 +7,7 @@ import time
 import re
 import shutil
 import pandasql as ps
+
 chrome_path = r"./chromedriver"
 
 
