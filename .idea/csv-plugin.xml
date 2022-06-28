@@ -3,84 +3,56 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
-        <entry key="/2022-01-24_to_2022-05-19.csv">
+        <entry key="/output/2022-03-01_to_2022-03-10/2022-03-01_to_2022-03-10_all.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
             </Attribute>
           </value>
         </entry>
-        <entry key="/2022-05-02_to_2022-05-04.csv">
+        <entry key="/output/2022-03-01_to_2022-03-10/2022-03-01_to_2022-03-10_topAlbums.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
             </Attribute>
           </value>
         </entry>
-        <entry key="/2022-05-05_to_2022-05-07.csv">
+        <entry key="/output/2022-03-01_to_2022-03-10/2022-03-01_to_2022-03-10_topArtists.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
             </Attribute>
           </value>
         </entry>
-        <entry key="/2022-05-29_to_2022-06-11.csv">
+        <entry key="/output/2022-03-01_to_2022-03-10/2022-03-01_to_2022-03-10_topSongs.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
             </Attribute>
           </value>
         </entry>
-        <entry key="/episoderanges/2022-01-24to2022-05-19/episodes-2022-06-08.csv">
+        <entry key="/output/2022-03-01_to_2022-03-20/2022-03-01_to_2022-03-20_all.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
             </Attribute>
           </value>
         </entry>
-        <entry key="/episoderanges/2022-05-02to2022-05-04/episodes-2022-06-09.csv">
+        <entry key="/output/2022-03-01_to_2022-03-20/2022-03-01_to_2022-03-20_topAlbums.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
             </Attribute>
           </value>
         </entry>
-        <entry key="/episoderanges/2022-05-15_to_2022-05-21.csv">
+        <entry key="/output/2022-03-01_to_2022-03-20/2022-03-01_to_2022-03-20_topArtists.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
             </Attribute>
           </value>
         </entry>
-        <entry key="/june_charts.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="/output/2022-01-24_to_2022-05-19.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="/output/2022-04-01_to_2022-04-02/2022-04-01_to_2022-04-02_all.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="/output/2022-04-01_to_2022-04-03/2022-04-01_to_2022-04-03_all.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="/output/2022-04-02_to_2022-04-03/2022-04-02_to_2022-04-03_all.csv">
+        <entry key="/output/2022-03-01_to_2022-03-20/2022-03-01_to_2022-03-20_topSongs.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
@@ -115,7 +87,28 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="/output/2022-05-05_to_2022-05-06.csv">
+        <entry key="/output/2022-06-13_to_2022-06-20/2022-06-13_to_2022-06-20_all.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/output/2022-06-13_to_2022-06-20/2022-06-13_to_2022-06-20_topAlbums.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/output/2022-06-13_to_2022-06-20/2022-06-13_to_2022-06-20_topArtists.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/output/2022-06-13_to_2022-06-20/2022-06-13_to_2022-06-20_topSongs.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />

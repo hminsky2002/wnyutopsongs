@@ -7,6 +7,9 @@ import time
 import re
 import shutil
 import pandasql as ps
+from pydrive.auth import GoogleAuth
+from pydrive.drive import GoogleDrive
+import tospotplaylist
 
 chrome_path = r"./chromedriver"
 
@@ -53,7 +56,9 @@ while not re.match(datepattern,startdate):
 enddate = input("enter an end date of form YYYY-MM-DD: ")
 while not re.match(datepattern,enddate):
     end = input("please enter a valid end date of form YYYY-MM-DD: ")
-
+songlimit = input('enter a song limit')
+albumlimit = input('enter an album limit')
+artistlimit = input('enter an artist limit')
 
 directory = startdate+"to"+enddate
 
@@ -120,8 +125,7 @@ topartists = ps.sqldf('''Select artist, count(*) as n
                           group by artist
                           having count(*) > 1
                           order by count(*) DESC
-                          limit 100
-                        ''')
+                          limit '''+artistlimit)
 topartists.to_csv(f"output/{startdate}_to_{enddate}/{startdate}_to_{enddate}_topArtists.csv",header=['artist', 'plays'])
 
 topsongs = ps.sqldf('''SELECT title, artist, count(*)
@@ -129,8 +133,7 @@ topsongs = ps.sqldf('''SELECT title, artist, count(*)
                         where showname != "Songland NYU" and title != "" and artist != ""
                         group by title, artist
                         order by count(*) DESC
-                        limit 100
-                        ''')
+                        limit '''+songlimit)
 topsongs.to_csv(f"output/{startdate}_to_{enddate}/{startdate}_to_{enddate}_topSongs.csv",header=['title','artist', 'plays'])
 
 topalbums = ps.sqldf('''SELECT albums, artist, COUNT(*) as plays
@@ -139,12 +142,32 @@ topalbums = ps.sqldf('''SELECT albums, artist, COUNT(*) as plays
                         GROUP BY albums,artist
                         HAVING plays > 1
                         ORDER BY plays DESC
-                        limit 100
-                        ''')
+                        limit '''+albumlimit)
 topalbums.to_csv(f"output/{startdate}_to_{enddate}/{startdate}_to_{enddate}_topAlbums.csv",header=['album','artist', 'plays'])
 
 driver.close()
 
+#create a playlist object to output the songs to a playlist
+playlistobject = tospotplaylist.CreatePlaylist(f'output/{startdate}_to_{enddate}/{startdate}_to_{enddate}_topSongs.csv')
+
+#for storing playlist id
+templist = playlistobject.sp.user_playlist_create('hdude4321',f'WNYU top songs {startdate} to {enddate}')
+
+#for adding songs
+playlistobject.sp.playlist_add_items(templist['id'],playlistobject.uris)
+
+
+
+#upload the files to gdrive
+gauth = GoogleAuth()
+gauth.LocalWebserverAuth()
+drive = GoogleDrive(gauth)
+uploadables = glob.glob(f'output/{startdate}_to_{enddate}/'+"/*.csv")
+for f in uploadables:
+    file = drive.CreateFile({'parents': [{'id':'1GPgIjuTSoFwtkcXzFK69TqgNRdmdzYzM'}]})
+    file.SetContentFile(f)
+    file.Upload()
 shutil.rmtree(directory)
+
 
 
